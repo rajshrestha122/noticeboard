@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - College Notice Board</title>
+     <link rel="stylesheet" href="faculty.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>Faculty Dashboard</h1>
+                <p>Manage notices for your subjects</p>
+            </div>
+            <div class="header-right">
+                <div class="user-info" id="userInfo"></div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="faculty-info">
+                <h3>Your Teaching Assignments</h3>
+                <div class="subjects-list" id="subjectsList"></div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalNotices">0</div>
+                    <div class="stat-label">Your Notices</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="highPriorityCount">0</div>
+                    <div class="stat-label">High Priority</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="todayNotices">0</div>
+                    <div class="stat-label">Today's Notices</div>
+                </div>
+            </div>
+
+            <div class="control-row">
+                <input type="text" class="search-box" id="searchBox" placeholder="Search your notices...">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Events">Events</option>
+                    <option value="Exam">Exam</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="General">General</option>
+                </select>
+                <select class="filter-select" id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+                <button class="add-btn" onclick="openModal()">Add Notice</button>
+            </div>
+        </div>
+
+        <div class="notices-container">
+            <div class="notices-grid" id="noticesGrid">
+                <div class="no-notices">
+                    <h3>No notices found</h3>
+                    <p>Click "Add Notice" to create your first notice</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="noticeModal">
+        <div class="modal-content">
+            <h2>Add New Notice</h2>
+            <form id="noticeForm">
+                <div class="form-group">
+                    <label for="noticeTitle">Title</label>
+                    <input type="text" id="noticeTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="noticeContent">Content</label>
+                    <textarea id="noticeContent" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="noticeCategory">Category</label>
+                    <select id="noticeCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Events">Events</option>
+                        <option value="Exam">Exam</option>
+                        <option value="Assignment">Assignment</option>
+                        <option value="General">General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="noticePriority">Priority</label>
+                    <select id="noticePriority" required>
+                        <option value="">Select Priority</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="targetAudience">Target Audience</label>
+                    <select id="targetAudience" required onchange="toggleSubjectField()">
+                        <option value="">Select Audience</option>
+                        <option value="all">All Students</option>
+                        <option value="department">Department Students</option>
+                        <option value="subject">Specific Subject Students</option>
+                    </select>
+                </div>
+                <div class="form-group" id="subjectGroup" style="display: none;">
+                    <label for="noticeSubject">Subject</label>
+                    <select id="noticeSubject">
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Notice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="faculty.js">  </script>
+</body>
+</html>

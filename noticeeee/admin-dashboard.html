@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - College Notice Board</title>
+   <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>Admin Dashboard</h1>
+                <p>Manage the entire notice board system</p>
+            </div>
+            <div class="header-right">
+                <div class="user-info" id="userInfo"></div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="admin-nav">
+            <button class="nav-btn active" onclick="switchTab('overview')">Overview</button>
+            <button class="nav-btn" onclick="switchTab('notices')">All Notices</button>
+            <button class="nav-btn" onclick="switchTab('faculty')">Faculty Management</button>
+            <button class="nav-btn" onclick="switchTab('allocate')">Faculty Allocation</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalNoticesCount">0</div>
+                    <div class="stat-label">Total Notices</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalFacultyCount">0</div>
+                    <div class="stat-label">Faculty Members</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="highPriorityNotices">0</div>
+                    <div class="stat-label">High Priority Notices</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todayNoticesCount">0</div>
+                    <div class="stat-label">Today's Notices</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 20px;">Recent Activity</h3>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Notice Title</th>
+                            <th>Author</th>
+                            <th>Department</th>
+                            <th>Priority</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentNoticesTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="notices" class="tab-content">
+            <div class="controls">
+                <input type="text" class="search-box" id="noticesSearchBox" placeholder="Search notices...">
+                <select class="filter-select" id="noticesCategoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Events">Events</option>
+                    <option value="Exam">Exam</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="Sports">Sports</option>
+                    <option value="General">General</option>
+                    <option value="Placement">Placement</option>
+                </select>
+                <select class="filter-select" id="noticesPriorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+                <button class="add-btn" onclick="openNoticeModal()">Add Notice</button>
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Target</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allNoticesTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="faculty" class="tab-content">
+            <div class="controls">
+                <input type="text" class="search-box" id="facultySearchBox" placeholder="Search faculty...">
+                <select class="filter-select" id="facultyDepartmentFilter">
+                    <option value="">All Departments</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                </select>
+                <button class="add-btn" onclick="openFacultyModal()">Add Faculty</button>
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Subjects</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="facultyTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="allocate" class="tab-content">
+            <h3 style="margin-bottom: 20px;">Faculty Notice Allocation</h3>
+            <div class="faculty-allocation">
+                <h4 style="margin-bottom: 15px;">Allocate Notices to Faculty Members</h4>
+                <div class="controls">
+                    <select class="filter-select" id="allocateFaculty">
+                        <option value="">Select Faculty</option>
+                    </select>
+                    <select class="filter-select" id="allocateNotice">
+                        <option value="">Select Notice</option>
+                    </select>
+                    <button class="add-btn" onclick="allocateNotice()">Allocate Notice</button>
+                </div>
+            </div>
+            
+            <div class="faculty-grid" id="facultyAllocationGrid">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="noticeModal">
+        <div class="modal-content">
+            <h2>Add New Notice</h2>
+            <form id="adminNoticeForm">
+                <div class="form-group">
+                    <label for="adminNoticeTitle">Title</label>
+                    <input type="text" id="adminNoticeTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminNoticeContent">Content</label>
+                    <textarea id="adminNoticeContent" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="adminNoticeCategory">Category</label>
+                    <select id="adminNoticeCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Events">Events</option>
+                        <option value="Exam">Exam</option>
+                        <option value="Assignment">Assignment</option>
+                        <option value="Sports">Sports</option>
+                        <option value="General">General</option>
+                        <option value="Placement">Placement</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="adminNoticePriority">Priority</label>
+                    <select id="adminNoticePriority" required>
+                        <option value="">Select Priority</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="adminTargetAudience">Target Audience</label>
+                    <select id="adminTargetAudience" required>
+                        <option value="">Select Audience</option>
+                        <option value="all">All Students</option>
+                        <option value="department">Department Students</option>
+                    </select>
+                </div>
+                <div class="form-group" id="adminDepartmentGroup" style="display: none;">
+                    <label for="adminNoticeDepartment">Department</label>
+                    <select id="adminNoticeDepartment">
+                        <option value="">Select Department</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                    </select>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeNoticeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Notice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="facultyModal">
+        <div class="modal-content">
+            <h2 id="facultyModalTitle">Add New Faculty</h2>
+            <form id="facultyForm">
+                <div class="form-group">
+                    <label for="facultyName">Name</label>
+                    <input type="text" id="facultyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="facultyDepartment">Department</label>
+                    <select id="facultyDepartment" required>
+                        <option value="">Select Department</option>
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Mechanical">Mechanical</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="facultySubjects">Subjects (comma separated)</label>
+                    <input type="text" id="facultySubjects" placeholder="e.g., Data Structures, Algorithms" required>
+                </div>
+                <div class="form-group">
+                    <label for="facultyEmail">Email</label>
+                    <input type="email" id="facultyEmail" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeFacultyModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="facultySubmitBtn">Add Faculty</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

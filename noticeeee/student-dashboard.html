@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - College Notice Board</title>
+      <link rel="stylesheet" href="student.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>Student Dashboard</h1>
+                <p>View all notices and announcements</p>
+            </div>
+            <div class="header-right">
+                <div class="user-info" id="userInfo"></div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalNotices">0</div>
+                    <div class="stat-label">Total Notices</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="highPriorityCount">0</div>
+                    <div class="stat-label">High Priority</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="todayNotices">0</div>
+                    <div class="stat-label">Today's Notices</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="departmentNotices">0</div>
+                    <div class="stat-label">Department Notices</div>
+                </div>
+            </div>
+
+            <div class="control-row">
+                <input type="text" class="search-box" id="searchBox" placeholder="Search notices...">
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Events">Events</option>
+                    <option value="Exam">Exam</option>
+                    <option value="Sports">Sports</option>
+                    <option value="General">General</option>
+                    <option value="Placement">Placement</option>
+                </select>
+                <select class="filter-select" id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="low">Low Priority</option>
+                </select>
+                <select class="filter-select" id="audienceFilter">
+                    <option value="">All Notices</option>
+                    <option value="all">General Notices</option>
+                    <option value="department">Department Notices</option>
+                    <option value="subject">Subject Notices</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="notices-container">
+            <div class="notices-grid" id="noticesGrid">
+                <div class="no-notices">
+                    <h3>No notices found</h3>
+                    <p>Check back later for new announcements</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="student.js"> </script>
+</body>
+</html>
